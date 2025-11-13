@@ -25,5 +25,27 @@ jobs:
     - name: Push to Registry
       run: echo "docker push my-registry/my-demo-image:${{ github.sha }}"
 
+    - name: Check if secret is empty
+      run: |
+        if [ -z "${{ secrets.AQUA_REGISTRY_USER }}" ]; then
+          echo "AQUA_REGISTRY_USER is empty!"
+          exit 1
+        else
+          echo "AQUA_REGISTRY_USER is set."
+        fi
+        if [ -z "${{ secrets.AQUA_REGISTRY_PASSWORD }}" ]; then
+          echo "AQUA_REGISTRY_PASSWORD is empty!"
+          exit 1
+        else
+          echo "AQUA_REGISTRY_PASSWORD is set."
+        fi
+        
+    - name: Login to Aqua Registry
+      # run: docker login registry.aquasec.com -u ${{ secrets.AQUA_REGISTRY_USER }} -p ${{ secrets.AQUA_REGISTRY_PASSWORD }}
+      run: echo ${{ secrets.AQUA_REGISTRY_PASSWORD }} | docker login registry.aquasec.com --username ${{ secrets.AQUA_REGISTRY_USER }} --password-stdin
+
+    - name: Pull Aqua Scanner
+      run: docker pull registry.aquasec.com/scanner:latest-saas
+
     - name: Run Aqua Image Scan
       run: docker run -e SCALOCK_LOG_LEVEL=DEBUG --rm -v /var/run/docker.sock:/var/run/docker.sock registry.aquasec.com/scanner:latest-saas scan --token ${{ secrets.DART_WP_SCANNER_TOKEN }} --local my-demo-image:${{ github.sha }} --registry my-registry --register
