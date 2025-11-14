@@ -41,8 +41,10 @@ jobs:
         fi
 
     - name: Download CLI
-      run: wget --user ${{ secrets.AQUA_REGISTRY_USER }} --password ${{ secrets.AQUA_REGISTRY_PASSWORD }} https://download.aquasec.com/scanner/2508.10.27/scannercli
-
+      run: |
+        wget --user ${{ secrets.AQUA_REGISTRY_USER }} --password ${{ secrets.AQUA_REGISTRY_PASSWORD }} https://download.aquasec.com/scanner/2508.10.27/scannercli
+        chmod +x scannercli
+        
     - name: Scan image
       run: ./scannercli scan -A ${{ secrets.DART_WP_SCANNER_TOKEN }} -H https://console.cloud.aquasec.com/ jasaz/my-demo-image:${{ github.sha }} --registry jasaz
       continue-on-error: true
