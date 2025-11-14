@@ -46,5 +46,5 @@ jobs:
         chmod +x scannercli
         
     - name: Scan image
-      run: ./scannercli scan -A ${{ secrets.DART_WP_SCANNER_TOKEN }} -H https://console.cloud.aquasec.com/ jasaz/my-demo-image:${{ github.sha }} --registry jasaz
+      run: ./scannercli scan -A ${{ secrets.DART_WP_SCANNER_TOKEN }} -H https://console.cloud.aquasec.com/ --local jasaz/my-demo-image:${{ github.sha }} --registry jasaz
       continue-on-error: true
