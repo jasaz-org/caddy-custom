@@ -22,8 +22,8 @@ jobs:
     # - name: Tag image with Registry
     #   run: docker tag my-demo-image:${{ github.sha }} my-registry/my-demo-image:${{ github.sha }}
 
-    - name: Push to Registry
-      run: echo "docker push my-registry/my-demo-image:${{ github.sha }}"
+    # - name: Push to Registry
+    #   run: echo "docker push my-registry/my-demo-image:${{ github.sha }}"
 
     - name: Check if secret is empty
       run: |
