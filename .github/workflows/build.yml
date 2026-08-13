@@ -17,10 +17,10 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-demo-image:${{ github.sha }}
+      run: docker build . --file Dockerfile --tag $GITHUB_REPOSITORY:${{ github.sha }}
 
-    - name: Tag image with Registry
-      run: docker tag my-demo-image:${{ github.sha }} my-registry/my-demo-image:${{ github.sha }}
+    # - name: Tag image with Registry
+    #   run: docker tag my-demo-image:${{ github.sha }} my-registry/my-demo-image:${{ github.sha }}
 
     - name: Push to Registry
       run: echo "docker push my-registry/my-demo-image:${{ github.sha }}"
@@ -48,4 +48,4 @@ jobs:
       run: docker pull registry.aquasec.com/scanner:latest-saas
 
     - name: Run Aqua Image Scan
-      run: docker run -e SCALOCK_LOG_LEVEL=DEBUG --rm -v /var/run/docker.sock:/var/run/docker.sock registry.aquasec.com/scanner:latest-saas scan --token ${{ secrets.SCANNER_TOKEN }} -H https://9dff5b1b71-d.cloud.aquasec.com/ --local my-registry/my-demo-image:${{ github.sha }} --registry my-registry --register
+      run: docker run -e SCALOCK_LOG_LEVEL=DEBUG --rm -v /var/run/docker.sock:/var/run/docker.sock registry.aquasec.com/scanner:latest-saas scan --token ${{ secrets.SCANNER_TOKEN }} -H https://9dff5b1b71-d.cloud.aquasec.com/ --local $GITHUB_REPOSITORY:${{ github.sha }} --registry jasaz-registry --register
