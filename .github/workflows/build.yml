@@ -48,4 +48,4 @@ jobs:
       run: docker pull registry.aquasec.com/scanner:latest-saas
 
     - name: Run Aqua Image Scan
-      run: docker run -e SCALOCK_LOG_LEVEL=DEBUG --rm -v /var/run/docker.sock:/var/run/docker.sock registry.aquasec.com/scanner:latest-saas scan --token ${{ secrets.SCANNER_TOKEN }} -H https://9dff5b1b71-d.cloud.aquasec.com/ --local $GITHUB_REPOSITORY:${{ github.sha }} --register --registry jasaz-registry 
+      run: docker run -e SCALOCK_LOG_LEVEL=DEBUG --rm -v /var/run/docker.sock:/var/run/docker.sock registry.aquasec.com/scanner:latest-saas scan --token ${{ secrets.SCANNER_TOKEN }} -H https://9dff5b1b71-d.cloud.aquasec.com/ --local $GITHUB_REPOSITORY:${{ github.sha }} --register --registry Aquasec-Registry
